@@ -51,32 +51,33 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Top Banner / Welcome */}
       <div
+        className="responsive-banner"
         style={{
           backgroundColor: '#FFFFFF',
           borderRadius: '12px',
           border: '1px solid var(--border-color)',
-          padding: '24px',
+          padding: '20px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
         }}
       >
         <div>
-          <h2 style={{ fontSize: '20px', fontWeight: 800, color: 'var(--dark-text)' }}>
-            Good evening
+          <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--dark-text)' }}>
+            Welcome back
           </h2>
-          <p style={{ fontSize: '14px', color: 'var(--secondary-text)', marginTop: '4px' }}>
+          <p style={{ fontSize: '13px', color: 'var(--secondary-text)', marginTop: '2px' }}>
             Here's your business document & revenue overview.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <button onClick={onNewQuotation} className="btn-secondary">
-            <FileText size={16} color="var(--primary-purple)" />
+        <div className="responsive-banner-actions" style={{ display: 'flex', gap: '10px' }}>
+          <button onClick={onNewQuotation} className="btn-secondary" style={{ padding: '8px 12px', fontSize: '13px' }}>
+            <FileText size={15} color="var(--primary-purple)" />
             <span>Create Quotation</span>
           </button>
-          <button onClick={onNewInvoice} className="btn-primary">
-            <Receipt size={16} />
+          <button onClick={onNewInvoice} className="btn-primary" style={{ padding: '8px 12px', fontSize: '13px' }}>
+            <Receipt size={15} />
             <span>Create Invoice</span>
           </button>
         </div>

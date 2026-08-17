@@ -45,8 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
         position: 'sticky',
         top: 0,
         zIndex: 10,
-        gap: '12px',
-        flexWrap: 'wrap'
+        gap: '12px'
       }}
     >
       {/* Title & Mobile Menu Hamburger */}
@@ -61,18 +60,17 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         )}
 
-        <h1 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--dark-text)', margin: 0 }}>
+        <h1 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--dark-text)', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {getPageTitle(currentView)}
         </h1>
       </div>
 
-      {/* Center Search / Command Palette Bar */}
+      {/* Desktop Search / Command Palette Bar */}
       <button
         onClick={onOpenCommandPalette}
+        className="desktop-only"
         style={{
           width: '280px',
-          maxWidth: '100%',
-          display: 'flex',
           alignItems: 'center',
           gap: '8px',
           padding: '7px 12px',
@@ -102,17 +100,30 @@ export const Header: React.FC<HeaderProps> = ({
         </kbd>
       </button>
 
-      {/* Quick Actions */}
+      {/* Right Actions */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <button onClick={onNewQuotation} className="btn-secondary" style={{ padding: '6px 10px', fontSize: '12px' }}>
-          <FileText size={14} color="var(--primary-purple)" />
-          <span>+ Quotation</span>
+        {/* Mobile Search Icon Button */}
+        <button
+          onClick={onOpenCommandPalette}
+          className="mobile-only btn-secondary"
+          style={{ padding: '6px 10px' }}
+          title="Search"
+        >
+          <Search size={16} color="var(--primary-purple)" />
         </button>
 
-        <button onClick={onNewInvoice} className="btn-primary" style={{ padding: '6px 10px', fontSize: '12px' }}>
-          <Receipt size={14} />
-          <span>+ Invoice</span>
-        </button>
+        {/* Desktop Quick Action Buttons */}
+        <div className="desktop-only" style={{ gap: '8px' }}>
+          <button onClick={onNewQuotation} className="btn-secondary" style={{ padding: '6px 10px', fontSize: '12px' }}>
+            <FileText size={14} color="var(--primary-purple)" />
+            <span>+ Quotation</span>
+          </button>
+
+          <button onClick={onNewInvoice} className="btn-primary" style={{ padding: '6px 10px', fontSize: '12px' }}>
+            <Receipt size={14} />
+            <span>+ Invoice</span>
+          </button>
+        </div>
       </div>
     </header>
   );
