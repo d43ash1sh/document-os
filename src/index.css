@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary-purple: #6D28D9;
+  --primary-hover: #5B21B6;
+  --secondary-purple: #7C3AED;
+  --light-purple: #F3EEFF;
+  --badge-bg: #EDE9FE;
+  --badge-text: #6D28D9;
+  
+  --dark-text: #1F2937;
+  --secondary-text: #6B7280;
+  --border-color: #E5E7EB;
+  --bg-main: #F9FAFB;
+  --bg-card: #FFFFFF;
+  
+  --success: #15803D;
+  --success-bg: #DCFCE7;
+  --warning: #D97706;
+  --warning-bg: #FEF3C7;
+  --danger: #DC2626;
+  --danger-bg: #FEE2E2;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-purple: 0 4px 14px 0 rgba(109, 40, 217, 0.25);
+  
+  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-main);
+  color: var(--dark-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Modern Purple Document Template Canvas (A4 Realistic View) */
+.a4-canvas-container {
+  background-color: #525659;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  min-height: 100%;
+}
+
+.a4-document {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  padding: 15mm 16mm;
+  margin: 0 auto;
+  position: relative;
+  font-size: 13px;
+  color: var(--dark-text);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Document Template Styling */
+.doc-header-bg {
+  border-bottom: 2px solid var(--primary-purple);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.doc-table th {
+  background-color: var(--primary-purple);
+  color: white;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.doc-table th.align-right {
+  text-align: right;
+}
+
+.doc-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 13px;
+  vertical-align: top;
+}
+
+.doc-table td.align-right {
+  text-align: right;
+}
+
+.doc-table tr:nth-child(even) td {
+  background-color: #FAFAFA;
+}
+
+.summary-card {
+  background-color: var(--light-purple);
+  border: 1px solid #DDD6FE;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .a4-canvas-container {
+    padding: 0 !important;
+    background: white !important;
+  }
+  .a4-document {
+    box-shadow: none !important;
+    margin: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+}
+
+/* Micro-animations */
+.fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* UI Utility Classes */
+.btn-primary {
+  background-color: var(--primary-purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  box-shadow: var(--shadow-purple);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--dark-text);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #F3F4F6;
+  border-color: #D1D5DB;
+}
+
+.btn-danger {
+  background-color: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid #FCA5A5;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-danger:hover {
+  background-color: #FEE2E2;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-purple { background: var(--badge-bg); color: var(--badge-text); }
+.badge-success { background: var(--success-bg); color: var(--success); }
+.badge-warning { background: var(--warning-bg); color: var(--warning); }
+.badge-danger { background: var(--danger-bg); color: var(--danger); }
+.badge-muted { background: #F3F4F6; color: var(--secondary-text); }
+
+.card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+}
