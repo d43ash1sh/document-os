@@ -282,8 +282,20 @@ body {
   display: none;
 }
 
-/* Mobile Responsiveness Rules (Active on screens <= 768px) */
+/* Document Editor Workspace Grid Default */
+.doc-editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Universal Mobile Responsiveness Rules (Active on screens <= 768px) */
 @media (max-width: 768px) {
+  main {
+    padding: 12px !important;
+  }
+
   .desktop-only {
     display: none !important;
   }
@@ -327,11 +339,16 @@ body {
     z-index: 999;
   }
 
+  /* Stack 2-Column & 3-Column Grid Form Fields into 1-Column */
+  div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+  }
+
   /* Responsive Flex & Banner Containers */
   .responsive-banner {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 14px !important;
+    gap: 12px !important;
   }
 
   .responsive-banner-actions {
@@ -344,8 +361,16 @@ body {
     justify-content: center !important;
   }
 
+  /* Document Editor Workspace Grid on Mobile */
+  .doc-editor-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+
   .a4-canvas-container {
     padding: 8px;
+    overflow-x: auto;
   }
 
   .a4-document {
@@ -362,5 +387,16 @@ body {
 
   .card {
     padding: 12px;
+  }
+
+  /* Modals on Mobile Phones */
+  div[style*="width: 500px"],
+  div[style*="width: 550px"],
+  div[style*="width: 600px"] {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    padding: 16px !important;
   }
 }
