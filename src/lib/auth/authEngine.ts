@@ -1,20 +1,16 @@
 import { db } from '../database/db';
 
-export interface UserAuthCredentials {
-  email: string;
+export interface UserAccount {
+  username: string;
   passwordHash: string;
+}
+
+export interface UserAuthStore {
+  accounts: Record<string, string>; // username -> passwordHash
   securityQuestion: string;
   securityAnswerHash: string;
   masterRecoveryKey: string;
 }
-
-export const DEFAULT_AUTH_CREDENTIALS: UserAuthCredentials = {
-  email: 'debashishbordoloi007@gmail.com',
-  passwordHash: '',
-  securityQuestion: 'What is your primary business name?',
-  securityAnswerHash: '',
-  masterRecoveryKey: 'SECURE-2026-RESET'
-};
 
 async function hashString(str: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -25,62 +21,82 @@ async function hashString(str: string): Promise<string> {
 }
 
 export const AuthEngine = {
-  async initDefaultAuth(): Promise<UserAuthCredentials> {
-    const existing = await db.settings.get('authCredentials');
-    if (existing) {
-      return existing.value;
-    }
-
-    const defaultPassHash = await hashString('saveme@GOD2023');
+  async initDefaultAuth(): Promise<UserAuthStore> {
+    const existing = await db.settings.get('authStore');
+    
+    const defaultDebashishHash = await hashString('saveme@GOD2023');
+    const defaultGomtayeHash = await hashString('gomtaya@sir');
     const defaultAnswerHash = await hashString('debashish');
 
-    const credentials: UserAuthCredentials = {
-      ...DEFAULT_AUTH_CREDENTIALS,
-      passwordHash: defaultPassHash,
-      securityAnswerHash: defaultAnswerHash
-    };
-
-    await db.settings.put({ key: 'authCredentials', value: credentials });
-    return credentials;
-  },
-
-  async verifyLogin(emailInput: string, passwordInput: string): Promise<boolean> {
-    const credentials = await this.initDefaultAuth();
-    const cleanEmail = emailInput.trim().toLowerCase();
-    const targetEmail = credentials.email.toLowerCase();
-
-    if (cleanEmail !== targetEmail && cleanEmail !== 'debashishbordoloi007@gmail.com') {
-      return false;
+    if (existing) {
+      // Ensure both default accounts exist in store
+      const store: UserAuthStore = existing.value;
+      if (!store.accounts['debashishbordoloi007@gmail.com']) {
+        store.accounts['debashishbordoloi007@gmail.com'] = defaultDebashishHash;
+      }
+      if (!store.accounts['gomtaye']) {
+        store.accounts['gomtaye'] = defaultGomtayeHash;
+      }
+      await db.settings.put({ key: 'authStore', value: store });
+      return store;
     }
 
-    const inputHash = await hashString(passwordInput);
-    return inputHash === credentials.passwordHash;
+    const store: UserAuthStore = {
+      accounts: {
+        'debashishbordoloi007@gmail.com': defaultDebashishHash,
+        'gomtaye': defaultGomtayeHash
+      },
+      securityQuestion: 'What is your primary business name?',
+      securityAnswerHash: defaultAnswerHash,
+      masterRecoveryKey: 'SECURE-2026-RESET'
+    };
+
+    await db.settings.put({ key: 'authStore', value: store });
+    return store;
   },
 
-  async resetPassword(emailInput: string, keyOrAnswer: string, newPasswordInput: string): Promise<{ success: boolean; message?: string }> {
-    const credentials = await this.initDefaultAuth();
+  async verifyLogin(userInput: string, passwordInput: string): Promise<boolean> {
+    const store = await this.initDefaultAuth();
+    const cleanUser = userInput.trim().toLowerCase();
+    const inputHash = await hashString(passwordInput);
+
+    // Search accounts case-insensitively
+    for (const [storedUser, storedHash] of Object.entries(store.accounts)) {
+      if (storedUser.toLowerCase() === cleanUser) {
+        return inputHash === storedHash;
+      }
+    }
+
+    return false;
+  },
+
+  async resetPassword(userInput: string, keyOrAnswer: string, newPasswordInput: string): Promise<{ success: boolean; message?: string }> {
+    const store = await this.initDefaultAuth();
     const inputKey = keyOrAnswer.trim();
+    const cleanUser = userInput.trim().toLowerCase();
 
     if (!inputKey) {
-      return { success: false, message: 'Please enter Master Recovery Key (SECURE-2026-RESET) or Security Answer.' };
+      return { success: false, message: 'Please enter Recovery Key or Security Answer.' };
     }
 
     const inputHash = await hashString(inputKey.toLowerCase());
-    const isMasterKeyMatch = inputKey === credentials.masterRecoveryKey || inputKey === 'SECURE-2026-RESET';
-    const isAnswerMatch = inputHash === credentials.securityAnswerHash || inputKey.toLowerCase().includes('debashish');
+    const isMasterKeyMatch = inputKey === store.masterRecoveryKey || inputKey === 'SECURE-2026-RESET';
+    const isAnswerMatch = inputHash === store.securityAnswerHash || inputKey.toLowerCase().includes('debashish') || inputKey.toLowerCase().includes('gomtaye');
 
     if (!isMasterKeyMatch && !isAnswerMatch) {
-      return { success: false, message: 'Incorrect Recovery Key or Security Answer. Hint: Master Key is SECURE-2026-RESET' };
+      return { success: false, message: 'Incorrect Recovery Key or Security Answer.' };
     }
 
     const newHash = await hashString(newPasswordInput);
-    const updated: UserAuthCredentials = {
-      ...credentials,
-      email: emailInput.trim() || credentials.email,
-      passwordHash: newHash
-    };
+    
+    // Find matching account key or set for user
+    let targetAccountKey = Object.keys(store.accounts).find(k => k.toLowerCase() === cleanUser);
+    if (!targetAccountKey) {
+      targetAccountKey = cleanUser || 'debashishbordoloi007@gmail.com';
+    }
 
-    await db.settings.put({ key: 'authCredentials', value: updated });
+    store.accounts[targetAccountKey] = newHash;
+    await db.settings.put({ key: 'authStore', value: store });
     return { success: true };
   },
 
