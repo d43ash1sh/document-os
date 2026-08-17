@@ -104,7 +104,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="debashishbordoloi007@gmail.com"
+                placeholder="name@example.com"
                 style={{ width: '100%', padding: '8px 12px 8px 36px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '13px', outline: 'none' }}
               />
             </div>
@@ -128,7 +128,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                placeholder="saveme@GOD2023"
+                placeholder="••••••••"
                 style={{ width: '100%', padding: '8px 12px 8px 36px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '13px', outline: 'none' }}
               />
             </div>

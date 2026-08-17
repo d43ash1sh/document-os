@@ -122,14 +122,11 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
               <input
                 type="text"
                 required
-                placeholder="Enter SECURE-2026-RESET or business answer"
+                placeholder="Enter recovery key or answer"
                 value={recoveryInput}
                 onChange={e => setRecoveryInput(e.target.value)}
                 style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--border-color)', fontSize: '13px', marginTop: '4px', fontFamily: 'monospace' }}
               />
-              <div style={{ fontSize: '11px', color: 'var(--primary-purple)', marginTop: '3px', fontWeight: 500 }}>
-                💡 Default Master Key: <code>SECURE-2026-RESET</code>
-              </div>
             </div>
 
             <div>
