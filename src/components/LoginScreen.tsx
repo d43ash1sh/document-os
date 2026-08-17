@@ -49,8 +49,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
       <div
         className="fade-in"
         style={{
-          width: '100%',
-          maxWidth: '400px',
+          width: '400px',
           backgroundColor: '#FFFFFF',
           borderRadius: '16px',
           boxShadow: 'var(--shadow-lg)',

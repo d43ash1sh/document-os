@@ -132,8 +132,8 @@ export const ClientsView: React.FC<ClientsViewProps> = ({
   return (
     <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {/* Header bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-        <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ position: 'relative', width: '300px' }}>
           <Search size={16} color="var(--secondary-text)" style={{ position: 'absolute', left: '12px', top: '10px' }} />
           <input
             type="text"
@@ -144,9 +144,9 @@ export const ClientsView: React.FC<ClientsViewProps> = ({
           />
         </div>
 
-        <button onClick={handleOpenAdd} className="btn-primary" style={{ padding: '8px 14px', fontSize: '13px' }}>
-          <Plus size={15} />
-          <span>+ Add Client</span>
+        <button onClick={handleOpenAdd} className="btn-primary">
+          <Plus size={16} />
+          <span>Add New Client</span>
         </button>
       </div>
 
@@ -159,10 +159,10 @@ export const ClientsView: React.FC<ClientsViewProps> = ({
           onAction={handleOpenAdd}
         />
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: selectedClientProfile ? '1fr 400px' : '1fr', gap: '20px' }}>
           {/* Clients List Table */}
-          <div className="card responsive-table" style={{ padding: 0 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '600px' }}>
+          <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
                 <tr style={{ backgroundColor: '#F9FAFB', borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--secondary-text)', fontWeight: 600 }}>
                   <th style={{ padding: '12px 16px' }}>Client Name</th>

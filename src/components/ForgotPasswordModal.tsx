@@ -66,13 +66,12 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
       <div
         className="fade-in"
         style={{
-          width: '100%',
-          maxWidth: '460px',
+          width: '460px',
           backgroundColor: '#FFFFFF',
           borderRadius: '16px',
           boxShadow: 'var(--shadow-lg)',
           overflow: 'hidden',
-          padding: '20px'
+          padding: '24px'
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>

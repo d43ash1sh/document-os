@@ -60,13 +60,6 @@ body {
   background: #94A3B8;
 }
 
-/* Responsive Table Wrapper */
-.responsive-table {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
 /* Modern Purple Document Template Canvas (A4 Realistic View) */
 .a4-canvas-container {
   background-color: #525659;
@@ -92,7 +85,6 @@ body {
   color: var(--dark-text);
   display: flex;
   flex-direction: column;
-  transform-origin: top center;
 }
 
 /* Document Template Styling */
@@ -263,23 +255,32 @@ body {
   padding: 20px;
 }
 
-/* Mobile Responsive Breakpoints */
-@media (max-width: 768px) {
+/* Pure CSS Mobile Responsiveness — Preserves 100% Desktop Layout */
+@media (max-width: 1024px) {
   .a4-canvas-container {
     padding: 12px;
   }
   .a4-document {
-    width: 100%;
+    max-width: 100%;
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 768px) {
+  .a4-canvas-container {
+    padding: 8px;
+  }
+  .a4-document {
+    width: 100% !important;
     min-height: auto;
-    padding: 12px;
+    padding: 10mm 10mm;
+    transform: none;
     font-size: 11px;
   }
   .doc-table th, .doc-table td {
     padding: 6px 8px;
     font-size: 11px;
-  }
-  .summary-card {
-    width: 100% !important;
   }
   .card {
     padding: 14px;
