@@ -19,24 +19,22 @@ import { PaymentsView } from './features/payments/PaymentsView';
 import { ReportsView } from './features/reports/ReportsView';
 import { TemplatesView } from './features/templates/TemplatesView';
 import { SettingsView } from './features/settings/SettingsView';
-import { LogOut } from 'lucide-react';
 
 export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => AuthEngine.isSessionLoggedIn());
   const [currentView, setCurrentView] = useState('dashboard');
   const [viewParam, setViewParam] = useState<string>('all');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<BusinessDocument | null>(null);
   const [editorDefaultType, setEditorDefaultType] = useState<DocumentType>('quotation');
   const [initialDocForPayment, setInitialDocForPayment] = useState<BusinessDocument | null>(null);
 
-  // Initialize Auth defaults
   useEffect(() => {
     AuthEngine.initDefaultAuth();
   }, []);
 
-  // Live queries from Dexie IndexedDB
   const clients = useLiveQuery(() => db.clients.orderBy('name').toArray(), []) || [];
   const services = useLiveQuery(() => db.services.orderBy('name').toArray(), []) || [];
   const documents = useLiveQuery(() => db.documents.orderBy('createdAt').reverse().toArray(), []) || [];
@@ -52,7 +50,6 @@ export function App() {
     upiId: '', upiQr: '', paymentInstructions: ''
   };
 
-  // Keyboard shortcut listener Ctrl/Cmd + K
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -104,14 +101,12 @@ export function App() {
     }
   };
 
-  // 1. If not authenticated, render Login Screen
   if (!isAuthenticated) {
     return <LoginScreen onLoginSuccess={() => setIsAuthenticated(true)} />;
   }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--bg-main)' }}>
-      {/* Onboarding Wizard for First Launch */}
       {appSettings && !appSettings.onboardingCompleted && (
         <OnboardingWizard onComplete={() => setCurrentView('dashboard')} />
       )}
@@ -123,35 +118,22 @@ export function App() {
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(prev => !prev)}
         onLogout={handleLogout}
+        mobileOpen={mobileSidebarOpen}
+        onCloseMobile={() => setMobileSidebarOpen(false)}
       />
 
       {/* Main Workspace Area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowX: 'hidden' }}>
-        {/* Header with Logout action */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ flex: 1 }}>
-            <Header
-              currentView={currentView}
-              onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-              onNewQuotation={() => handleNewDocument('quotation')}
-              onNewInvoice={() => handleNewDocument('invoice')}
-              onNewClient={() => handleSelectNavView('clients')}
-            />
-          </div>
-          <div style={{ backgroundColor: '#FFFFFF', height: '64px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', paddingRight: '20px' }}>
-            <button
-              onClick={handleLogout}
-              title="Sign Out"
-              className="btn-secondary"
-              style={{ padding: '6px 12px', fontSize: '12px' }}
-            >
-              <LogOut size={14} color="var(--danger)" />
-              <span>Logout</span>
-            </button>
-          </div>
-        </div>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        <Header
+          currentView={currentView}
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          onNewQuotation={() => handleNewDocument('quotation')}
+          onNewInvoice={() => handleNewDocument('invoice')}
+          onNewClient={() => handleSelectNavView('clients')}
+          onToggleMobileMenu={() => setMobileSidebarOpen(prev => !prev)}
+        />
 
-        <main style={{ flex: 1 }}>
+        <main style={{ flex: 1, paddingBottom: '32px' }}>
           {currentView === 'dashboard' && (
             <DashboardView
               documents={documents}
@@ -243,7 +225,6 @@ export function App() {
         </main>
       </div>
 
-      {/* Global Command Palette */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}

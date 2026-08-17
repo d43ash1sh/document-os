@@ -60,6 +60,13 @@ body {
   background: #94A3B8;
 }
 
+/* Responsive Table Wrapper */
+.responsive-table {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Modern Purple Document Template Canvas (A4 Realistic View) */
 .a4-canvas-container {
   background-color: #525659;
@@ -255,33 +262,64 @@ body {
   padding: 20px;
 }
 
-/* Pure CSS Mobile Responsiveness — Preserves 100% Desktop Layout */
-@media (max-width: 1024px) {
-  .a4-canvas-container {
-    padding: 12px;
-  }
-  .a4-document {
-    max-width: 100%;
-    transform: scale(0.95);
-    transform-origin: top center;
-  }
+/* Mobile Hamburger Button (Hidden on Desktop) */
+.mobile-menu-btn {
+  display: none;
 }
 
+/* Mobile Responsiveness Rules (Only active on screens <= 768px) */
 @media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: var(--dark-text);
+  }
+
+  .sidebar-container {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000 !important;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar-container.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  .mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+  }
+
   .a4-canvas-container {
     padding: 8px;
   }
+
   .a4-document {
     width: 100% !important;
     min-height: auto;
     padding: 10mm 10mm;
-    transform: none;
     font-size: 11px;
   }
+
   .doc-table th, .doc-table td {
     padding: 6px 8px;
     font-size: 11px;
   }
+
   .card {
     padding: 14px;
   }
