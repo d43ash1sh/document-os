@@ -269,7 +269,7 @@ body {
   overflow: hidden;
 }
 
-/* Mobile Hamburger Button (Hidden on Desktop) */
+/* Desktop Defaults (> 768px) */
 .mobile-menu-btn {
   display: none;
 }
@@ -282,7 +282,6 @@ body {
   display: none;
 }
 
-/* Document Editor Workspace Grid Default */
 .doc-editor-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -290,7 +289,19 @@ body {
   overflow: hidden;
 }
 
-/* Universal Mobile Responsiveness Rules (Active on screens <= 768px) */
+.doc-editor-form-col {
+  display: flex !important;
+}
+
+.doc-editor-preview-col {
+  display: flex !important;
+}
+
+.mobile-tab-bar {
+  display: none !important;
+}
+
+/* Mobile Phone Rules (<= 768px) */
 @media (max-width: 768px) {
   main {
     padding: 12px !important;
@@ -339,12 +350,54 @@ body {
     z-index: 999;
   }
 
-  /* Stack 2-Column & 3-Column Grid Form Fields into 1-Column */
+  /* Document Editor Mobile Switcher Bar */
+  .mobile-tab-bar {
+    display: flex !important;
+    width: 100%;
+  }
+
+  .mobile-tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--secondary-text);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+
+  .mobile-tab-btn.active {
+    background: white;
+    color: var(--primary-purple);
+    border-bottom-color: var(--primary-purple);
+  }
+
+  .doc-editor-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    flex: 1;
+  }
+
+  .doc-editor-form-col.mobile-hide,
+  .doc-editor-preview-col.mobile-hide {
+    display: none !important;
+  }
+
+  .doc-editor-form-col.mobile-show,
+  .doc-editor-preview-col.mobile-show {
+    display: flex !important;
+    flex: 1;
+    width: 100% !important;
+  }
+
+  /* Stack Form Grids into 1-Column */
   div[style*="gridTemplateColumns"] {
     grid-template-columns: 1fr !important;
   }
 
-  /* Responsive Flex & Banner Containers */
   .responsive-banner {
     flex-direction: column !important;
     align-items: stretch !important;
@@ -359,13 +412,6 @@ body {
   .responsive-banner-actions button {
     width: 100% !important;
     justify-content: center !important;
-  }
-
-  /* Document Editor Workspace Grid on Mobile */
-  .doc-editor-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    overflow-y: auto !important;
   }
 
   .a4-canvas-container {

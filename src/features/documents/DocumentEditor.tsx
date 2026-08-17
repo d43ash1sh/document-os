@@ -181,6 +181,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
     await generateDocumentDOCX(currentDoc, selectedClient, businessProfile, paymentSettings);
   };
 
+  const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form');
   const docType = docData.type || 'quotation';
 
   return (
@@ -188,59 +189,76 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
       {/* Action Toolbar Header */}
       <div
         style={{
-          padding: '12px 24px',
+          padding: '12px 16px',
           backgroundColor: '#FFFFFF',
           borderBottom: '1px solid var(--border-color)',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '10px'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <button onClick={onBack} className="btn-secondary" style={{ padding: '6px 12px' }}>
-            <ArrowLeft size={16} /> Back
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <button onClick={onBack} className="btn-secondary" style={{ padding: '6px 10px', fontSize: '13px' }}>
+            <ArrowLeft size={15} /> Back
           </button>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontWeight: 600, fontSize: '14px' }}>Format / Type:</span>
-            <select
-              value={docData.type}
-              onChange={e => setDocData({ ...docData, type: e.target.value as DocumentType })}
-              style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid var(--border-color)', fontWeight: 700, color: 'var(--primary-purple)', backgroundColor: 'var(--light-purple)' }}
-            >
-              <option value="quotation">Quotation (Commercial Proposal)</option>
-              <option value="invoice">Tax Invoice (Official Bill)</option>
-              <option value="estimate">Estimate (Cost Estimate)</option>
-              <option value="proforma">Proforma Invoice (Pre-Billing)</option>
-              <option value="proposal">Project Proposal (Pitch & Scope)</option>
-              <option value="work_order">Work Order (Service Agreement)</option>
-              <option value="receipt">Receipt (Payment Voucher)</option>
-              <option value="payment_receipt">Payment Receipt (Proof)</option>
-              <option value="amc">AMC (Annual Maintenance)</option>
-            </select>
-          </div>
+          <select
+            value={docData.type}
+            onChange={e => setDocData({ ...docData, type: e.target.value as DocumentType })}
+            style={{ padding: '6px 10px', borderRadius: '6px', border: '1px solid var(--border-color)', fontWeight: 700, color: 'var(--primary-purple)', backgroundColor: 'var(--light-purple)', fontSize: '13px' }}
+          >
+            <option value="quotation">Quotation</option>
+            <option value="invoice">Tax Invoice</option>
+            <option value="estimate">Estimate</option>
+            <option value="proforma">Proforma Invoice</option>
+            <option value="proposal">Project Proposal</option>
+            <option value="work_order">Work Order</option>
+            <option value="receipt">Receipt</option>
+            <option value="payment_receipt">Payment Receipt</option>
+            <option value="amc">AMC Contract</option>
+          </select>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button onClick={() => printDocumentElement('document-a4-preview')} className="btn-secondary">
-            <Printer size={15} /> Print
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          <button onClick={() => printDocumentElement('document-a4-preview')} className="btn-secondary" style={{ padding: '6px 10px', fontSize: '12px' }}>
+            <Printer size={14} /> Print
           </button>
-          <button onClick={handleExportDOCX} className="btn-secondary">
-            <Download size={15} /> DOCX
+          <button onClick={handleExportDOCX} className="btn-secondary" style={{ padding: '6px 10px', fontSize: '12px' }}>
+            <Download size={14} /> DOCX
           </button>
-          <button onClick={handleExportPDF} className="btn-secondary">
-            <Download size={15} color="var(--primary-purple)" /> PDF
+          <button onClick={handleExportPDF} className="btn-secondary" style={{ padding: '6px 10px', fontSize: '12px' }}>
+            <Download size={14} color="var(--primary-purple)" /> PDF
           </button>
-          <button onClick={handleSave} disabled={saving} className="btn-primary">
-            <Save size={16} /> {saving ? 'Saving...' : 'Save Document'}
+          <button onClick={handleSave} disabled={saving} className="btn-primary" style={{ padding: '6px 12px', fontSize: '13px' }}>
+            <Save size={15} /> {saving ? 'Saving...' : 'Save'}
           </button>
         </div>
+      </div>
+
+      {/* Mobile Switcher Tab Bar (Hidden on Desktop) */}
+      <div className="mobile-tab-bar" style={{ backgroundColor: '#F8FAFC', borderBottom: '1px solid var(--border-color)' }}>
+        <button
+          type="button"
+          onClick={() => setMobileTab('form')}
+          className={`mobile-tab-btn ${mobileTab === 'form' ? 'active' : ''}`}
+        >
+          📝 Form Inputs
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab('preview')}
+          className={`mobile-tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+        >
+          📄 Live A4 Preview
+        </button>
       </div>
 
       {/* Editor & Live Canvas Workspace */}
       <div className="doc-editor-grid">
         {/* Left Input Controls */}
-        <div style={{ padding: '24px', overflowY: 'auto', borderRight: '1px solid var(--border-color)', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className={`doc-editor-form-col ${mobileTab === 'form' ? 'mobile-show' : 'mobile-hide'}`} style={{ padding: '24px', overflowY: 'auto', borderRight: '1px solid var(--border-color)', backgroundColor: '#FFFFFF', flexDirection: 'column', gap: '20px' }}>
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--primary-purple)' }}>
               Document Metadata
@@ -454,7 +472,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
         </div>
 
         {/* Right Live Canvas — Distinct Layout per Document Type */}
-        <div className="a4-canvas-container">
+        <div className={`a4-canvas-container doc-editor-preview-col ${mobileTab === 'preview' ? 'mobile-show' : 'mobile-hide'}`}>
           <div id="document-a4-preview" className="a4-document">
             
             {/* 1. DISTINCT HEADER BANNER BASED ON TYPE */}
