@@ -13,8 +13,8 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   onClose,
   onSuccess
 }) => {
-  const [email, setEmail] = useState('debashishbordoloi007@gmail.com');
-  const [recoveryInput, setRecoveryInput] = useState('SECURE-2026-RESET');
+  const [email, setEmail] = useState('');
+  const [recoveryInput, setRecoveryInput] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
