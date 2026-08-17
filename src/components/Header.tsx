@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Plus, FileText, Receipt, UserPlus, Command } from 'lucide-react';
+import { Search, Plus, FileText, Receipt, UserPlus, Menu } from 'lucide-react';
 
 interface HeaderProps {
   currentView: string;
@@ -7,6 +7,7 @@ interface HeaderProps {
   onNewQuotation: () => void;
   onNewInvoice: () => void;
   onNewClient: () => void;
+  onToggleMobileMenu: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -14,7 +15,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCommandPalette,
   onNewQuotation,
   onNewInvoice,
-  onNewClient
+  onNewClient,
+  onToggleMobileMenu
 }) => {
   const getPageTitle = (view: string) => {
     switch (view) {
@@ -23,9 +25,9 @@ export const Header: React.FC<HeaderProps> = ({
       case 'services': return 'Service Catalog';
       case 'documents': return 'Document Management';
       case 'payments': return 'Payments & Balance Tracking';
-      case 'reports': return 'Financial & Document Analytics';
-      case 'templates': return 'Document Templates';
-      case 'settings': return 'System & Business Settings';
+      case 'reports': return 'Financial Analytics';
+      case 'templates': return 'Templates';
+      case 'settings': return 'Settings';
       default: return 'Business Workspace';
     }
   };
@@ -33,21 +35,31 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header
       style={{
-        height: '64px',
+        minHeight: '64px',
         backgroundColor: '#FFFFFF',
         borderBottom: '1px solid var(--border-color)',
-        padding: '0 24px',
+        padding: '0 16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'sticky',
         top: 0,
-        zIndex: 10
+        zIndex: 10,
+        gap: '12px',
+        flexWrap: 'wrap'
       }}
     >
-      {/* Title & Breadcrumbs */}
-      <div>
-        <h1 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--dark-text)', margin: 0 }}>
+      {/* Mobile Hamburger & Title */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <button
+          onClick={onToggleMobileMenu}
+          className="btn-secondary"
+          style={{ padding: '6px', borderRadius: '6px' }}
+        >
+          <Menu size={20} color="var(--primary-purple)" />
+        </button>
+
+        <h1 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--dark-text)', margin: 0, whiteSpace: 'nowrap' }}>
           {getPageTitle(currentView)}
         </h1>
       </div>
@@ -56,29 +68,31 @@ export const Header: React.FC<HeaderProps> = ({
       <button
         onClick={onOpenCommandPalette}
         style={{
-          width: '320px',
+          flex: 1,
+          maxWidth: '300px',
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
-          padding: '8px 14px',
+          gap: '8px',
+          padding: '6px 12px',
           backgroundColor: '#F3F4F6',
           border: '1px solid var(--border-color)',
           borderRadius: '8px',
           color: 'var(--secondary-text)',
           fontSize: '13px',
-          cursor: 'pointer',
-          transition: 'all 0.15s ease'
+          cursor: 'pointer'
         }}
       >
-        <Search size={16} />
-        <span style={{ flex: 1, textAlign: 'left' }}>Search clients, docs, actions...</span>
+        <Search size={15} />
+        <span style={{ flex: 1, textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          Search...
+        </span>
         <kbd
           style={{
             backgroundColor: '#FFFFFF',
             border: '1px solid #CBD5E1',
             borderRadius: '4px',
-            padding: '1px 6px',
-            fontSize: '11px',
+            padding: '1px 4px',
+            fontSize: '10px',
             fontFamily: 'monospace'
           }}
         >
@@ -87,20 +101,15 @@ export const Header: React.FC<HeaderProps> = ({
       </button>
 
       {/* Quick Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <button onClick={onNewQuotation} className="btn-secondary" style={{ padding: '6px 12px', fontSize: '13px' }}>
-          <FileText size={15} color="var(--primary-purple)" />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <button onClick={onNewQuotation} className="btn-secondary" style={{ padding: '6px 10px', fontSize: '12px' }}>
+          <FileText size={14} color="var(--primary-purple)" />
           <span>+ Quotation</span>
         </button>
 
-        <button onClick={onNewInvoice} className="btn-primary" style={{ padding: '6px 12px', fontSize: '13px' }}>
-          <Receipt size={15} />
+        <button onClick={onNewInvoice} className="btn-primary" style={{ padding: '6px 10px', fontSize: '12px' }}>
+          <Receipt size={14} />
           <span>+ Invoice</span>
-        </button>
-
-        <button onClick={onNewClient} className="btn-secondary" style={{ padding: '6px 12px', fontSize: '13px' }}>
-          <UserPlus size={15} />
-          <span>+ Client</span>
         </button>
       </div>
     </header>

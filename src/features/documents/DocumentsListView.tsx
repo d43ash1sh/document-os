@@ -94,9 +94,9 @@ export const DocumentsListView: React.FC<DocumentsListViewProps> = ({
   return (
     <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {/* Header & Action Bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <div style={{ position: 'relative', width: '280px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', flex: 1 }}>
+          <div style={{ position: 'relative', minWidth: '200px', flex: 1 }}>
             <Search size={16} color="var(--secondary-text)" style={{ position: 'absolute', left: '12px', top: '10px' }} />
             <input
               type="text"
@@ -122,9 +122,9 @@ export const DocumentsListView: React.FC<DocumentsListViewProps> = ({
           </select>
         </div>
 
-        <button onClick={() => onNewDocument((filterType === 'all' ? 'quotation' : filterType) as DocumentType)} className="btn-primary">
-          <Plus size={16} />
-          <span>Create New {filterType === 'all' ? 'Document' : filterType.replace('_', ' ')}</span>
+        <button onClick={() => onNewDocument((filterType === 'all' ? 'quotation' : filterType) as DocumentType)} className="btn-primary" style={{ padding: '8px 14px', fontSize: '13px' }}>
+          <Plus size={15} />
+          <span>+ Create {filterType === 'all' ? 'Document' : filterType.replace('_', ' ')}</span>
         </button>
       </div>
 
@@ -137,8 +137,8 @@ export const DocumentsListView: React.FC<DocumentsListViewProps> = ({
           onAction={() => onNewDocument((filterType === 'all' ? 'quotation' : filterType) as DocumentType)}
         />
       ) : (
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+        <div className="card responsive-table" style={{ padding: 0 }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '600px' }}>
             <thead>
               <tr style={{ backgroundColor: '#F9FAFB', borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--secondary-text)', fontWeight: 600 }}>
                 <th style={{ padding: '12px 16px' }}>Doc Number</th>

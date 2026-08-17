@@ -11,7 +11,7 @@
   --dark-text: #1F2937;
   --secondary-text: #6B7280;
   --border-color: #E5E7EB;
-  --bg-main: #F9FAFB;
+  --bg-main: #F8FAFC;
   --bg-card: #FFFFFF;
   
   --success: #15803D;
@@ -60,6 +60,13 @@ body {
   background: #94A3B8;
 }
 
+/* Responsive Table Wrapper */
+.responsive-table {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Modern Purple Document Template Canvas (A4 Realistic View) */
 .a4-canvas-container {
   background-color: #525659;
@@ -68,7 +75,9 @@ body {
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
+  overflow-x: auto;
   min-height: 100%;
+  width: 100%;
 }
 
 .a4-document {
@@ -83,6 +92,7 @@ body {
   color: var(--dark-text);
   display: flex;
   flex-direction: column;
+  transform-origin: top center;
 }
 
 /* Document Template Styling */
@@ -173,13 +183,14 @@ body {
   border: none;
   border-radius: 6px;
   padding: 8px 16px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .btn-primary:hover {
@@ -200,6 +211,7 @@ body {
   align-items: center;
   gap: 8px;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .btn-secondary:hover {
@@ -213,12 +225,13 @@ body {
   border: 1px solid #FCA5A5;
   border-radius: 6px;
   padding: 8px 16px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
 }
 
 .btn-danger:hover {
@@ -248,4 +261,27 @@ body {
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   padding: 20px;
+}
+
+/* Mobile Responsive Breakpoints */
+@media (max-width: 768px) {
+  .a4-canvas-container {
+    padding: 12px;
+  }
+  .a4-document {
+    width: 100%;
+    min-height: auto;
+    padding: 12px;
+    font-size: 11px;
+  }
+  .doc-table th, .doc-table td {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .summary-card {
+    width: 100% !important;
+  }
+  .card {
+    padding: 14px;
+  }
 }
