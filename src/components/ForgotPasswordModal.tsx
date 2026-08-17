@@ -109,10 +109,11 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
             <div>
               <label style={{ fontSize: '12px', fontWeight: 600 }}>Username / Email</label>
               <input
-                type="email"
+                type="text"
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
+                placeholder="Username or Email"
                 style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--border-color)', fontSize: '13px', marginTop: '4px' }}
               />
             </div>

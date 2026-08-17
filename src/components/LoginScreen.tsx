@@ -100,11 +100,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             <div style={{ position: 'relative', marginTop: '4px' }}>
               <Mail size={16} color="var(--secondary-text)" style={{ position: 'absolute', left: '12px', top: '10px' }} />
               <input
-                type="email"
+                type="text"
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="name@example.com"
+                placeholder="Username or Email"
                 style={{ width: '100%', padding: '8px 12px 8px 36px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '13px', outline: 'none' }}
               />
             </div>
